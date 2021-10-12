@@ -1,0 +1,102 @@
+
+/*
+Theme Name: TACTUN
+Theme URI: https://vecto.digital/
+Author: GEG style
+Version: 1.0
+*/
+html, body {
+	margin: 0;
+	padding: 0;
+	color: #383b41;
+	font-family: 'Aktiv Grotesk Corp',Lato, Arial;
+	line-height: 22px;
+	font-weight: normal;
+}
+img{
+	width: 100%;
+	height: auto;
+}
+a {
+	color: #1999fc;
+	text-decoration: none;
+	transition: all 0.5s;
+}
+a:hover {
+	text-decoration: none;
+	opacity: 0.8;
+	transition: all 0.5s;
+}
+h1 {
+	font-size: 36px;
+	line-height: 43px;
+	font-weight: 900;
+	color: #000;
+}
+h2 {
+	font-family: Gibson;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 36px;
+	line-height: 52px;
+	text-align: center;
+	font-feature-settings: 'liga' off;
+	color: #363F46;
+}
+/*************** HEADER **********/
+.header {
+	padding: 15px 0;
+	background: linear-gradient(96.31deg, #197CB3 1.79%, #4C8D5E 57.22%, #7A9C11 106.3%);
+}
+.custom-logo{
+	width: 156px;
+	height: 24px;
+}
+.menu ul {
+	list-style: none;
+	padding: 0;
+}
+.menu ul li a{
+	font-family: Gibson;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 24px;
+	font-feature-settings: 'liga' off;
+	color: #FFFFFF;
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+	margin: 0px 8px;
+}
+
+
+
+/*************** RESPONSIVE **********/
+
+
+@media screen and (max-width: 990px){
+
+}
+
+@media screen and (max-width: 800px) and (min-width: 760px){
+
+}
+
+@media screen and (max-width: 800px){
+
+}
+
+@media screen and (max-width: 767px){
+
+}
+@media screen and (max-width: 480px){
+
+}
+
+@media screen and (min-width: 1440px){
+
+}
+@media screen and (min-width:1025px){
+
+}
