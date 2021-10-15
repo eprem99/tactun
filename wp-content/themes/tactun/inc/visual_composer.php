@@ -158,11 +158,19 @@ if ( !defined( 'ABSPATH' ) )
             ),
             array(
                 'type'        => 'checkbox',
-                'heading'     => esc_html__('Banner breadcrumbs display', 'tactun'),
-                'param_name'  => 'tactun_bredcrumbs',
+                'heading'     => esc_html__('Banner Top Angle', 'tactun'),
+                'param_name'  => 'tactun_angle_top',
                 'value'       => array(
                     esc_html__('Yes', 'tactun')   => '1',
-                ),  
+                ),
+            ),
+            array(
+                'type'        => 'checkbox',
+                'heading'     => esc_html__('Banner Bottom Angle', 'tactun'),
+                'param_name'  => 'tactun_angle_bottom',
+                'value'       => array(
+                    esc_html__('Yes', 'tactun')   => '1',
+                ),
             ),
             // Title this banner
             array(
@@ -217,6 +225,37 @@ if ( !defined( 'ABSPATH' ) )
                 'heading'     => esc_html__('Banner colors', 'tactun'),
                 'param_name'  => 'tactun_colors',
                 'save_always' => false, 
+            ),
+            array(
+                'type'        => 'checkbox',
+                'heading'     => esc_html__('Banner Button', 'tactun'),
+                'param_name'  => 'tactun_button',
+                'save_always' => false, 
+            ),
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Button text', 'tactun' ),
+                'description' => esc_html__( 'Add Button text this block', 'tactun' ),
+                'param_name' => 'tactun_button_text',
+                'dependency'  => array( 'element' => 'tactun_button', 'value' => 'true' ),
+                'group'       => esc_html__( 'Button', 'tactun' ),
+            ),
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Button link', 'tactun' ),
+                'description' => esc_html__( 'Add Button link this block', 'tactun' ),
+                'param_name' => 'tactun_button_link',
+                'dependency'  => array( 'element' => 'tactun_button', 'value' => 'true' ),
+                'group'       => esc_html__( 'Button', 'tactun' ),
+            ),
+            // Color
+            array(
+                'type' => 'colorpicker',
+                'heading' => esc_html__( 'Add button color', 'tactun' ),
+                'description' => esc_html__( 'Add button color this block', 'tactun' ),
+                'param_name' => 'tactun_button_color',
+                'dependency'  => array( 'element' => 'tactun_button', 'value' => 'true' ),
+                'group'       => esc_html__( 'Button', 'tactun' ),
             ),
             // Color
             array(
@@ -447,9 +486,16 @@ if ( !defined( 'ABSPATH' ) )
             ),
             array(
                 'type' => 'textarea',
-                'heading' => esc_html__( 'Add this block text', 'tactun' ),
+                'heading' => esc_html__( 'Block text', 'tactun' ),
                 'description' => esc_html__( 'Add text for block', 'tactun' ),
                 'param_name' => 'image_text_text', 
+                'save_always' => true,    
+            ), 
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Button Link', 'tactun' ),
+                'description' => esc_html__( 'Add this block Button Link', 'tactun' ),
+                'param_name' => 'image_text_link', 
                 'save_always' => true,    
             ), 
             // Image
@@ -493,6 +539,44 @@ if ( !defined( 'ABSPATH' ) )
         )
 
     ) );
+    
+    /*---------------------------------------------------------------------------------
+        Testimonials GRID
+    -----------------------------------------------------------------------------------*/
+    class WPBakeryShortCode_Tactun_Testimonials_Slider extends WPBakeryShortCode {}
+
+    vc_map( array(
+
+        'name' => esc_html__( 'Testimonials Slider', 'tactun' ),
+        'description' => esc_html__( 'Add Testimonials Slider display.', 'tactun' ),
+        'base' => 'tactun_testimonials_slider',
+        'icon' => 'icon-wpb-toggle-small-expand',
+        'category' => esc_html( 'Tactun' ),
+        'params' => array(
+            // Title
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Title for Block', 'tactun' ),
+                'description' => esc_html__( 'Add title for block', 'tactun' ),
+                'param_name' => 'testimonials_title',
+                'std' => '',
+                'save_always' => true,
+            ),
+            // Title
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Number posts display', 'tactun' ),
+                'description' => esc_html__( 'Add number them display greid system', 'tactun' ),
+                'param_name' => 'testimonials_display',
+                'std' => '',
+                'save_always' => true,
+            ),
+        )
+
+    ) );
+
+
+
     /*---------------------------------------------------------------------------------
         TEAM GRID
     -----------------------------------------------------------------------------------*/
@@ -648,6 +732,7 @@ if ( !defined( 'ABSPATH' ) )
                     esc_html__( 'Theme Default', 'tactun' ) => 'normal',
                     esc_html__( 'Light', 'tactun' ) => '300',
                     esc_html__( 'Normal', 'tactun' ) => '500',
+                    esc_html__( 'Semi Bold', 'tactun' ) => '600',
                     esc_html__( 'Bold', 'tactun' ) => '900',
                 ),
                 'std' => 'normal',
@@ -917,27 +1002,6 @@ if ( !defined( 'ABSPATH' ) )
 
     ) );
 
-    /*---------------------------------------------------------------------------------
-        Navigate 
-    -----------------------------------------------------------------------------------*/
-    class WPBakeryShortCode_Tactun_Navigate extends WPBakeryShortCodesContainer {}
-
-    vc_map( array(
-
-        'name' => esc_html__( 'Navigation', 'tactun' ),
-        'description' => esc_html__( 'Add navigation.', 'tactun' ),
-        'as_parent' => array( 'only' => 'tactun_navigate_blocks' ),
-        'base' => 'tactun_navigate',
-        'icon' => 'icon-wpb-toggle-small-expand',
-        'content_element' => true,
-        'show_settings_on_create' => true,
-        'js_view' => 'VcColumnView',
-        'category' => esc_html( 'Tactun' ),
-        'params' => array(
-
-        )
-
-    ) );
 
     /*---------------------------------------------------------------------------------
         Slider Blocks

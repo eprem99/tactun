@@ -1,19 +1,18 @@
 window.addEventListener('load', () => {
     var swiper = new Swiper('.swiper-container',{
-      pagination: {
-        el: '.swiper-pagination',
-        dynamicBullets: true,
-        clickable: true,
-        slidesPerView: 1,
-      },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
     });
-
 }, false);
+new PerfectScrollbar('#scrollpage');
 
 // Start Document
 jQuery(document).ready(function($){
     "use strict";
 // $('*').bind('touchmove', false);
+
 
     $('.oval').click(function(event) {
         $('header .serach').addClass('active');
@@ -23,19 +22,19 @@ jQuery(document).ready(function($){
 
     });
     
-    // SWIPER
-    var swiper = new Swiper('.news-slider',{
-      pagination: {
-        el: '.swiper-pagination',
-        dynamicBullets: true,
-        clickable: true,
-        slidesPerView: 1,
-      },
-    })
-$(window).resize(function(){
+    /******* SWIPER ******/
+//     var swiper = new Swiper('.news-slider',{
+//       pagination: {
+//         el: '.swiper-pagination',
+//         dynamicBullets: true,
+//         clickable: true,
+//         slidesPerView: 1,
+//       },
+//     })
+// $(window).resize(function(){
 
-  swiper.update();
-})
+//   swiper.update();
+// })
 
     /******* BANNER ******/
     $('.parallax-window').parallax();
@@ -98,18 +97,6 @@ $('.main-menu .menu li').each(function(index, el) {
     }, function() {
             $(this).removeClass('hover');
 
-    });
-
-
-    $('#date').each(function(event) {
-
-          var display = $('.date-picker-wrapper').css('display');
-
-          if (display != 'block') {
-            $(this).parent().addClass('active');
-          }else{
-            $(this).parent().removeClass('active');
-          }
     });
 
 
@@ -256,20 +243,6 @@ jQuery(function($){
    }
 });
 
-
-   $('.addevent').addToCalendar({
-    filename: 'myicalendar',
-    target: '_blank', 
-    providers: {
-        google: 'Google Calendar', 
-        outlook: 'Outlook Calendar', 
-        yahoo: 'Yahoo! Calendar',
-        other: 'Other Calendar'
-    },
-    onAddEvent: function() {
-        console.log(this);
-    }
-  });
 jQuery('#addevent').on('click',function(event) {
     jQuery('.cal-clients').toggleClass('open');
 });
@@ -288,67 +261,4 @@ function padding(){
 };
 
 
-
- $('.wpcf7-submit').click(function(event) {
-    setTimeout(function() {
-    if($('form.wpcf7-form').hasClass('sent')){
-           $('.subscribe-form .your-email').append('<span class="wpcf7-valid-tip"></span>');
-    }else{
-        event.preventDefault();
-        $('.subscribe-form .your-email .wpcf7-valid-tip').remove();
-    }
-}, 1000);
-}); 
-
 });
-
-
-    jQuery(document).ready(function(jQuery) {            
-            var topMenu = jQuery(".navigate"),
-                offset = 40,
-                topMenuHeight = topMenu.outerHeight()+offset,
-                // All list items
-                menuItems =  topMenu.find('a[href*="#"]'),
-                // Anchors corresponding to menu items
-                scrollItems = menuItems.map(function(){
-                  var href = jQuery(this).attr("href"),
-                  id = href.substring(href.indexOf('#')),
-                  item = jQuery(id);
-                  //console.log(item)
-                  if (item.length) { return item; }
-                });
-
-            // so we can get a fancy scroll animation
-            menuItems.click(function(e){
-              var href = jQuery(this).attr("href"),
-                id = href.substring(href.indexOf('#'));
-                  offsetTop = href === "#" ? 0 : jQuery(id).offset().top-topMenuHeight/2;
-              jQuery('html, body').stop().animate({ 
-                  scrollTop: offsetTop
-              }, 300);
-              e.preventDefault();
-            });
-
-            // Bind to scroll
-            jQuery(window).scroll(function(){
-               // Get container scroll position
-               var fromTop = jQuery(this).scrollTop()+topMenuHeight-50;
-
-               // Get id of current scroll item
-               var cur = scrollItems.map(function(){
-                 if (jQuery(this).offset().top < fromTop)
-                   return this;
-               });
-
-               // Get the id of the current element
-               cur = cur[cur.length-1];
-               var id = cur && cur.length ? cur[0].id : "";               
-
-               menuItems.parent().removeClass("active");
-               if(id){
-                    menuItems.parent().end().filter("[href*='#"+id+"']").parent().addClass("active");
-                    menuItems.parents('.navs').end().filter("[href*='#"+id+"']").parents('.navs').addClass("active");
-               }
-
-            })
-        })

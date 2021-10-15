@@ -1,25 +1,33 @@
    </div>
 </div>
 <footer>
-<div class="container-fluid">
-     <div class="row">
-        <div class="foot-md-3">
-        <?php dynamic_sidebar( 'footer-1' ); ?>
-        </div>
-        <div class="foot-md-2">
-             <?php dynamic_sidebar( 'footer-2' ); ?>
-        </div>
-        <div class="foot-md-7">
-             <?php dynamic_sidebar( 'footer-3' ); ?>
-        </div>
+<div class="decor-top"><svg class="decor" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#333C42;stop-opacity:1"></stop>
+        <stop offset="100%" style="stop-color:#6D7482;stop-opacity:1"></stop>
+</linearGradient>
+<path d="M0 100 L100 0 L100 100" stroke-width="0" fill="url(#grad1)"></path>
+</svg></div>
+<div class="container">
+     <div class="row footer-sidebars">
+     <?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
+          <!-- <div class="footer-sidebars"> -->
+               <?php dynamic_sidebar( 'footer-1' ); ?>
+          <!-- </div> -->
+     <?php endif; ?>
     </div>
     <div class="copyright row">
-        <div class="col-xs-6 col-md-7 col-sm-8">
-             <?php dynamic_sidebar( 'footer-4' ); ?>
-        </div>
-        <div class="col-xs-6 col-md-5 col-sm-4 text-right socials">
+        <div class="col-md-12 col-sm-12 text-cener socials">
              <?php dynamic_sidebar( 'footer-social' ); ?>
+        </div>
+        <div class="col-md-12 text-center">
+             <?php $copyright = tactun_option( 'copyright_text', false); 
+             if(!empty($copyright)){
+                  echo $copyright;
+             }
+             ?>
         </div>
     </div>
 </footer>
+
 <?php wp_footer(); ?>

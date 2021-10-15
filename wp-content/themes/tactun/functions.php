@@ -49,39 +49,6 @@ function tactun_widgets_init() {
 			'after_title'   => '</div>',
 		)
 	);
-	register_sidebar(
-		array(
-			'name'          => __( 'Footer 2', 'tactun' ),
-			'id'            => 'footer-2',
-			'description'   => __( 'Add widgets here to appear in your footer.', 'tactun' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<div class="widget-title">',
-			'after_title'   => '</div>',
-		)
-	);
- 	register_sidebar(
-		array(
-			'name'          => __( 'Footer 3', 'tactun' ),
-			'id'            => 'footer-3',
-			'description'   => __( 'Add widgets here to appear in your footer.', 'tactun' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<div class="widget-title">',
-			'after_title'   => '</div>',
-		)
-	); 
-    register_sidebar(
-		array(
-			'name'          => __( 'Footer 4', 'tactun' ),
-			'id'            => 'footer-4',
-			'description'   => __( 'Add widgets here to appear in your footer.', 'tactun' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<div class="widget-title">',
-			'after_title'   => '</div>',
-		)
-	); 
     register_sidebar(
 		array(
 			'name'          => __( 'Footer social', 'tactun' ),
@@ -107,8 +74,7 @@ function tactun_enqueue_scripts() {
     wp_enqueue_style( 'tactun-responsive', get_template_directory_uri() . '/assets/css/responsive.css', array(), '1.0', 'all' );
     wp_enqueue_style( 'tactun-swiper', get_template_directory_uri() . '/assets/css/swiper.min.css', array(), '1.0', 'all' );
     wp_enqueue_style( 'tactun-select', get_template_directory_uri() . '/assets/css/select2.css', array(), '1.0', 'all' );
-    wp_enqueue_style( 'tactun-daterangepicker', get_template_directory_uri() . '/assets/css/daterangepicker.css', array(), '1.0', 'all' );
-    wp_enqueue_style( 'tactun-addtocalendar', get_template_directory_uri() . '/assets/css/addtocalendar.css', array(), '1.0', 'all' );
+    wp_enqueue_style( 'tactun-scroll', get_template_directory_uri() . '/assets/css/perfect-scrollbar.css', array(), '1.0', 'all' );
 
     /**
      * JS
@@ -116,9 +82,9 @@ function tactun_enqueue_scripts() {
     wp_enqueue_script( 'tactun-parallax-js', get_template_directory_uri() . '/assets/js/jquery.parallax.min.js', array( 'jquery' ), '1', true );
     wp_enqueue_script( 'tactun-select-js', get_template_directory_uri() . '/assets/js/select2.min.js', array( 'jquery' ), '1', true );
     wp_enqueue_script( 'tactun-moment-js', get_template_directory_uri() . '/assets/js/moment.js', array( 'jquery' ), '1', true );
-    wp_enqueue_script( 'tactun-date-js', get_template_directory_uri() . '/assets/js/jquery.daterangepicker.min.js', array( 'jquery' ), '1', true );
-    wp_enqueue_script( 'tactun-calendar-js', get_template_directory_uri() . '/assets/js/addtocalendar.min.js', array( 'jquery' ), '1', true );
+    wp_enqueue_script( 'tactun-header-js', get_template_directory_uri() . '/assets/js/header_slidedown.js', array( 'jquery' ), '1', true );
     wp_enqueue_script( 'tactun-swiper-js', get_template_directory_uri() . '/assets/js/swiper.min.js', array( 'jquery' ), '1', true );
+    wp_enqueue_script( 'tactun-scroll-js', get_template_directory_uri() . '/assets/js/perfect-scrollbar.min.js', array( 'jquery' ), '1', true );
     wp_enqueue_script( 'tactun-theme-js', get_template_directory_uri() . '/assets/js/tactun.js', array( 'jquery' ), '1', true );
 
 }
@@ -177,27 +143,6 @@ function chars_class(){
 	$class = substr(str_shuffle($permitted_chars), 0, 5);
 	return $class;
 }
-
-function add_styles_cat() {
-	if ( is_single() ) {
-		$tags = get_the_terms(get_the_id(), 'solution_categories');
-        $color = get_term_meta($tags[0]->term_id, 'category_color', true);
-        echo '<style>
-                body .accordion .actitle, body .mb-4 .solution-grid::after,.navigate .navs:hover::before, .navigate .navs.active::before {
-	                background: '.$color.' !important;
-                }
-                body .mb-4 .solution-grid, body .navsik:hover, body .active > .navsik{
-					color: '.$color.' !important;
-				}
-                body .mb-4 .solution-grid {
-					border-color: '.$color.' !important;
-				}
-        </style>';
-	}
-}
-add_action( 'wp_footer', 'add_styles_cat', 99 );
-
-
 
 function template_category_template_redirect()
 {

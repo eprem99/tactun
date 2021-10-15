@@ -74,7 +74,15 @@ Redux::setSection( $opt_name, array(
             'default'   => array( 'url' => get_template_directory_uri() . '/assets/img/logo/logo-dark.png' ),
             'subtitle'  => esc_html__( 'Upload your custom site logo.', 'tactun' ),
         ),
-
+        array(
+            'id'        => 'custom_logo_fixed',
+            'url'       => true,
+            'type'      => 'media',
+            'title'     => esc_html__( 'Dark Logo', 'tactun' ),
+            'read-only' => false,
+            'default'   => array( 'url' => get_template_directory_uri() . '/assets/img/logo/logo-dark.png' ),
+            'subtitle'  => esc_html__( 'Upload your Dark site logo.', 'tactun' ),
+        ),
         array(
             'title'            => esc_html__('Logo Margin', 'tactun'),
             'subtitle'         => esc_html__('Move your logo around to fit it perfectly.', 'tactun'),

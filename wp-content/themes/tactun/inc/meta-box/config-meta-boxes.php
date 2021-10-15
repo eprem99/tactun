@@ -20,7 +20,29 @@ if ( ! function_exists( 'tactun_register_meta_boxes' ) ) {
 
 	function tactun_register_meta_boxes( $meta_boxes ) {
 
-$pages_array = get_pages();
+    $pages_array = get_pages();
+
+	if(shortcode_exists("rev_slider")){ 
+	$sliders = array(
+		'0' =>  'Selsect Slider'
+	);
+
+	  $slider = new RevSlider();
+	  $revolution_sliders = $slider->getArrSliders();
+
+	  foreach ( $revolution_sliders as $revolution_slider ) {
+		$alias = $revolution_slider->getAlias();
+		$title = $revolution_slider->getTitle();
+		    $sliders[$alias] = $title;
+	  }
+
+	 }else{
+		$sliders = array(
+			'0' =>  'No Slider found'
+		); 
+	 }
+	 
+
 
     $solution_pages = array(
       'all' =>  'Selsect'
@@ -31,6 +53,45 @@ $pages_array = get_pages();
                 $solution_pages[$page->ID] = $page->post_title;
         }
     }
+
+	$meta_boxes[] = array(
+		'id' => 'pages-meta-box',
+		'title' => esc_html__( 'Page Setings', 'framework' ),
+		'post_types' => array( 'page' ),
+		'context' => 'normal',
+		'priority' => 'high',
+		'fields' => array(
+			array(
+				'name'        => 'Select Slider',
+				'id'          => 'slider',
+				'type'        => 'select',
+				'options'     =>  $sliders,
+				// Allow to select multiple value?
+				'multiple'        => false,
+			),
+
+		),
+
+	);
+
+	$meta_boxes[] = array(
+		'id' => 'testimonials-meta-box',
+		'title' => esc_html__( 'Testimonials Setings', 'framework' ),
+		'post_types' => array( 'testimonials' ),
+		'context' => 'normal',
+		'priority' => 'high',
+		'fields' => array(
+			array(
+				'name' => esc_html__( 'Name', 'framework' ),
+				'id' => "testimonial_name",
+				// 'desc' => esc_html__( 'Please provide the Name, Otherwise the Name will be displayed in its place.', 'framework' ),
+				'type' => 'text',
+			),
+
+		),
+
+	);
+
 
 		$meta_boxes[] = array(
 			'id' => 'solution-meta-box',
