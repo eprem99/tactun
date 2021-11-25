@@ -1,33 +1,25 @@
-   </div>
 </div>
 <footer>
-<div class="decor-top"><svg class="decor" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
-<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:#333C42;stop-opacity:1"></stop>
-        <stop offset="100%" style="stop-color:#6D7482;stop-opacity:1"></stop>
-</linearGradient>
-<path d="M0 100 L100 0 L100 100" stroke-width="0" fill="url(#grad1)"></path>
-</svg></div>
+<div class="angle_top"></div>
 <div class="container">
-     <div class="row footer-sidebars">
      <?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
-          <!-- <div class="footer-sidebars"> -->
+          <div class="row footer-sidebars">
                <?php dynamic_sidebar( 'footer-1' ); ?>
-          <!-- </div> -->
+          </div>
      <?php endif; ?>
-    </div>
-    <div class="copyright row">
-        <div class="col-md-12 col-sm-12 text-cener socials">
-             <?php dynamic_sidebar( 'footer-social' ); ?>
-        </div>
-        <div class="col-md-12 text-center">
-             <?php $copyright = tactun_option( 'copyright_text', false); 
-             if(!empty($copyright)){
-                  echo $copyright;
-             }
-             ?>
-        </div>
-    </div>
+    <?php get_template_part( 'template-parts/footer/copyright' ); ?>
+</div>    
 </footer>
-
+     <?php $copyright = tactun_option( 'scroll_top', false); 
+          if($copyright == true){ ?>
+            <div id="scrolltop">
+               <svg width="45" height="45" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g style="mix-blend-mode:exclusion">
+                    <path d="M32 63C49.1208 63 63 49.1208 63 32C63 14.8792 49.1208 1 32 1C14.8792 1 1 14.8792 1 32C1 49.1208 14.8792 63 32 63Z" stroke="#D0D0D0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M44 32L32 20L20 32" stroke="#D0D0D0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M32 44V20" stroke="#D0D0D0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+               </svg>
+          </div>
+     <?php } ?>       
 <?php wp_footer(); ?>

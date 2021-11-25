@@ -8,7 +8,7 @@
 function the_breadcrumb () {
      
     // Settings
-    $separator  = ' | ';
+    $separator  = ' / ';
     $id         = 'breadcrumbs';
     $class      = 'mt-bredcrumb row';
     $home_title = 'Home';
@@ -37,7 +37,7 @@ function the_breadcrumb () {
     if ( !is_front_page() ) {
          
         // Home page
-      //  echo '<li class="breadcrumb-item"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a></li>';
+        echo '<li class="breadcrumb-item"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a><span>'.$separator.'</span></li>';
          
         if ( is_singular('post') ) {
              
@@ -56,7 +56,7 @@ function the_breadcrumb () {
                $style = ''; 
                echo '<style>.banner-title::before{background:#000;}</style>';
             }
-            echo '<li class="breadcrumb-item"><a href="' . $link . '" title="' . $post_type_obj->labels->name . '">' . $post_type_obj->labels->name . '<span>'.$separator.'</span></a></li>';
+            echo '<li class="breadcrumb-item"><a href="' . $link . '" title="' . $post_type_obj->labels->name . '">' . $post_type_obj->labels->name . '</a><span>'.$separator.'</span></li>';
             echo '<li class="breadcrumb-item active" style="'.$style.'">'. get_the_title() . '</li>';
 
         } else if ( is_category() ) {
@@ -157,7 +157,7 @@ function the_breadcrumb () {
              
         } else if ( is_search() ) {
 
-            echo '<li class="breadcrumb-item"><a href="' . $link . '" title="' . $post_type_obj->labels->name . '">' . $post_type_obj->labels->name . '<span>'.$separator.'</span></a></li>';
+            echo '<li class="breadcrumb-item"><a href="' . $link . '" title="' . $post_type_obj->labels->name . '">' . $post_type_obj->labels->name . '</a><span>'.$separator.'</span></li>';
 
             echo '<li class="breadcrumb-item active"><a href="'.get_the_permalink( get_the_ID() ).'">'. get_the_title() . '</a></li>';
 

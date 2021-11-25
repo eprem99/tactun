@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 3.4.0
  */
 
@@ -29,12 +29,9 @@ get_header( 'shop' );
 do_action( 'woocommerce_before_main_content' );
 
 ?>
-
-<div class="products-header--row">
-	
-<header class="products-header">
+<header class="woocommerce-products-header">
 	<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-		<h1 class="products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
+		<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
 	<?php endif; ?>
 
 	<?php
@@ -46,41 +43,10 @@ do_action( 'woocommerce_before_main_content' );
 	 */
 	do_action( 'woocommerce_archive_description' );
 	?>
-
-	<div class="sub-categories">
-		<?php
-
-		if ( is_product_category() ) {
-
-		    $term_id  = get_queried_object_id();
-		    $taxonomy = 'product_cat';
-
-		    // Get subcategories of the current category
-		    $terms    = get_terms([
-		        'taxonomy'    => $taxonomy,
-		        'hide_empty'  => true,
-		        'parent'      => get_queried_object_id()
-		    ]);
-
-		    $output = '<ul class="subcategories-list">';
-
-		    // Loop through product subcategories WP_Term Objects
-		    foreach ( $terms as $term ) {
-		        $term_link = get_term_link( $term, $taxonomy );
-
-		        $output .= '<li class="'. $term->slug .'"><a href="'. $term_link .'">'. $term->name .'</a></li>';
-		    }
-
-		    echo $output . '</ul>';
-		}
-
-		?>
-	</div>
-	
 </header>
 <?php
 if ( woocommerce_product_loop() ) {
-echo '<div class="row end orderbys align-items-center">';
+
 	/**
 	 * Hook: woocommerce_before_shop_loop.
 	 *
@@ -88,9 +54,7 @@ echo '<div class="row end orderbys align-items-center">';
 	 * @hooked woocommerce_result_count - 20
 	 * @hooked woocommerce_catalog_ordering - 30
 	 */
-	
 	do_action( 'woocommerce_before_shop_loop' );
-    echo '</div></div>';
 
 	woocommerce_product_loop_start();
 

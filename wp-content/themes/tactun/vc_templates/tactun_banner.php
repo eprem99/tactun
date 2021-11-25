@@ -28,11 +28,11 @@ if(!empty($banner_img)){
   $featured_img = wp_get_attachment_image_url( $banner_img, 'full' );
        if($tactun_paralax != 1){
       echo '<div class="banner-block">';
-      if($tactun_angle_top == 1){
-        echo '<svg class="decor tactun_angle_top" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 100 L100 0 L100 100" stroke-width="0" fill=""></path>
-        </svg>';
-      }
+      // if($tactun_angle_top == 1){
+      //   echo '<svg class="decor tactun_angle_top" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+      //   <path d="M0 100 L100 0 L100 100" stroke-width="0" fill=""></path>
+      //   </svg>';
+      // }
       echo '<div class="banner" style="background-image:url('.$featured_img.')">';
       if(!empty($tactun_title || $tactun_descrition)){
         echo '<div class="container">';
@@ -47,21 +47,21 @@ if(!empty($banner_img)){
           echo '<div class="banner-button"><a href="'.$tactun_button_link.'">'.$tactun_button_text.'</a></div>';
         }
         echo '</div>';
-        if($tactun_angle_bottom == 1){
-          echo '<svg class="decor tactun_angle_bottom" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 100 L100 0 L100 100" stroke-width="0" fill=""></path>
-          </svg>';
-        }
+        // if($tactun_angle_bottom == 1){
+        //   echo '<svg class="decor tactun_angle_bottom" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+        //   <path d="M0 100 L100 0 L100 100" stroke-width="0" fill=""></path>
+        //   </svg>';
+        // }
         echo '</div>';
       }
       echo '</div></div>';
       }else{
         echo '<div class="banner-block">';
-        if($tactun_angle_top == 1){
-          echo '<svg class="decor tactun_angle_top" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 100 L100 0 L100 100" stroke-width="0" fill=""></path>
-          </svg>';
-        }
+        // if($tactun_angle_top == 1){
+        //   echo '<svg class="decor tactun_angle_top" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+        //   <path d="M0 100 L100 0 L100 100" stroke-width="0" fill=""></path>
+        //   </svg>';
+        // }
       echo '<div class="parallax-window banner" data-image-src="'.$featured_img.'">';
       if(!empty($tactun_title || $tactun_descrition)){
         echo '<div class="container">';
@@ -78,19 +78,19 @@ if(!empty($banner_img)){
               echo '</div></div>';
           }
           echo '</div>';
-          if($tactun_angle_bottom == 1){
-            echo '<svg class="decor tactun_angle_bottom" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 100 L100 0 L100 100" stroke-width="0" fill="url(#grad1)"></path>
-            </svg>';
-          }
+          // if($tactun_angle_bottom == 1){
+          //   echo '<svg class="decor tactun_angle_bottom" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+          //   <path d="M0 100 L100 0 L100 100" stroke-width="0" fill="url(#grad1)"></path>
+          //   </svg>';
+         // }
           echo '</div>';
       }
 }elseif(!empty($tactun_backgraund_color) && empty($banner_img)){
   echo '<div class="banner-block">';
   if($tactun_angle_top == 1){
-    echo '<svg class="decor tactun_angle_top" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 100 L100 0 L100 100" stroke-width="0" fill="url(#grad1)"></path>
-    </svg>';
+    // echo '<svg class="decor tactun_angle_top" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+    // <path d="M0 100 L100 0 L100 100" stroke-width="0" fill="url(#grad1)"></path>
+    // </svg>';
   }
     echo '<div class="banner">';
   if(!empty($tactun_title || $tactun_descrition)){
@@ -109,9 +109,9 @@ if(!empty($banner_img)){
   }
   echo '</div>';
   if($tactun_angle_bottom == 1){
-    echo '<svg class="decor tactun_angle_bottom" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 100 L100 0 L100 100" stroke-width="0" fill="url(#grad1)"></path>
-    </svg>';
+    // echo '<svg class="decor tactun_angle_bottom" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+    // <path d="M0 100 L100 0 L100 100" stroke-width="0" fill="url(#grad1)"></path>
+    // </svg>';
   }
   echo '</div>';
 }

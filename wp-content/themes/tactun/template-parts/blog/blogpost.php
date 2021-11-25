@@ -3,9 +3,6 @@
  * Template Part for Single BlogPosts
  */
 $tags = get_the_terms(get_the_id(), 'category');
-$cat = get_the_terms(get_the_id(), 'solution_categories');
-$html = post_tags(get_the_id(), 'solution_categories');
-$color = get_term_meta($cat[0]->term_id, 'category_color', true);
 $id = $tags[0]->term_id;
 $link = get_category_link( $id );
 ?>

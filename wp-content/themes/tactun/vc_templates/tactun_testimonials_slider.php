@@ -22,10 +22,10 @@ $query = new WP_Query(array(
     <div class="swiper-slide">
     <div class="col-sm-12 pl-0 pr-0">
     	<div class="row">
-        <div class="col-md-1">
+        <div class="col-md-1 col-4">
             <div class="news-grid-img"><?php the_post_thumbnail('tactun-image-374x257-cropped'); ?></div>
         </div>
-        <div class="col-md-11">
+        <div class="col-md-11 col-8">
             <div class="testimional-name"><?php echo $name; ?></div>
             <div class="testimional-title"><?php the_title(); ?></div>
         </div>
@@ -43,4 +43,5 @@ $query = new WP_Query(array(
 </div>
 <div class="swiper-button-next swiper-button-disabled" tabindex="-1" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-f999cc2c3f6991026" aria-disabled="true"></div>
 <div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-f999cc2c3f6991026" aria-disabled="false"></div>
+<div class="swiper-pagination swiper-pagination-bullets swiper-pagination-horizontal"></div>
 </div>

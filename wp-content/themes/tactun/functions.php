@@ -74,7 +74,8 @@ function tactun_enqueue_scripts() {
     wp_enqueue_style( 'tactun-responsive', get_template_directory_uri() . '/assets/css/responsive.css', array(), '1.0', 'all' );
     wp_enqueue_style( 'tactun-swiper', get_template_directory_uri() . '/assets/css/swiper.min.css', array(), '1.0', 'all' );
     wp_enqueue_style( 'tactun-select', get_template_directory_uri() . '/assets/css/select2.css', array(), '1.0', 'all' );
-    wp_enqueue_style( 'tactun-scroll', get_template_directory_uri() . '/assets/css/perfect-scrollbar.css', array(), '1.0', 'all' );
+    wp_enqueue_style( 'tactun-wc', get_template_directory_uri() . '/assets/css/wc.css', array(), '1.0', 'all' );
+  //  wp_enqueue_style( 'tactun-scroll', get_template_directory_uri() . '/assets/css/perfect-scrollbar.css', array(), '1.0', 'all' );
 
     /**
      * JS
@@ -84,13 +85,22 @@ function tactun_enqueue_scripts() {
     wp_enqueue_script( 'tactun-moment-js', get_template_directory_uri() . '/assets/js/moment.js', array( 'jquery' ), '1', true );
     wp_enqueue_script( 'tactun-header-js', get_template_directory_uri() . '/assets/js/header_slidedown.js', array( 'jquery' ), '1', true );
     wp_enqueue_script( 'tactun-swiper-js', get_template_directory_uri() . '/assets/js/swiper.min.js', array( 'jquery' ), '1', true );
-    wp_enqueue_script( 'tactun-scroll-js', get_template_directory_uri() . '/assets/js/perfect-scrollbar.min.js', array( 'jquery' ), '1', true );
+  //  wp_enqueue_script( 'tactun-scroll-js', get_template_directory_uri() . '/assets/js/jquery.scrollbar.min.js', array( 'jquery' ), '1.0', true );
     wp_enqueue_script( 'tactun-theme-js', get_template_directory_uri() . '/assets/js/tactun.js', array( 'jquery' ), '1', true );
 
 }
 
 add_action( 'wp_enqueue_scripts', 'tactun_enqueue_scripts' );
 
+// function admin_scripts() {
+
+//     wp_register_script( 'tooltip-js', get_template_directory_uri() . '/assets/js/tooltipshortcode.js', array( 'jquery', 'wp-tinymce' ), '1', true );
+    
+//     wp_enqueue_script( 'tooltip-js' );
+    
+//     }
+    
+//     add_action( 'admin_enqueue_scripts', 'admin_scripts' );
 
 // function add_description_to_menu($item_output, $item, $depth, $args) {
 //     if (strlen($item->description) > 0 ) {
@@ -144,28 +154,72 @@ function chars_class(){
 	return $class;
 }
 
-function template_category_template_redirect()
-{
-    if( taxonomy_exists('solution_categories') && is_tax('solution_categories')){
-    	$queried_object = get_queried_object();
-        $term_id = $queried_object->term_id;
-        $post_id = get_term_meta($term_id, 'solution_redirect', true );
-    	if(!empty($post_id)){
-           wp_redirect(get_page_link($post_id)); 
-        exit;
-    	}
+function output_all_postmeta($id) {
 
-    }
+	$postmetas = get_post_meta($id);
+
+	foreach($postmetas as $meta_key=>$meta_value) {
+		echo $meta_key . ' : ' . $meta_value[0] . '<br/>';
+	}
 }
-add_action( 'template_redirect','template_category_template_redirect' );
+function output_all_taxmeta($id) {
+
+	$termmetas = get_metadata('term', $id);
+  var_dump($termmetas);
+	// foreach($termmetas as $meta_key=>$meta_value) {
+	// 	echo $meta_key . ' : ' . $meta_value[0] . '<br/>';
+	// }
+}
 
 
+function new_tooltip($atts) { 
+
+    $message = ''; 
+    $message .= '<div class="con-tooltip left">';
+    
+    if($atts['titlepreview'] == true){
+        $message .= '<span>'.$atts['title'].'</span>';  
+    }
+    $message .= '<i class="tooltip-icon"></i><div class="tooltip"><span class="title">'.$atts['title'].'</span>';  
+    $message .= '<p>'.$atts['text']."</p></div></div>";
+    return $message;
+    } 
+
+    add_shortcode('tooltip', 'new_tooltip'); 
+    
+    add_action( 'wp_enqueue_scripts', 'geg_remove_woo_styles', 20 ); // priority 20 and higher
 
 // Options Admin Panel
 require_once( get_template_directory() . '/inc/remove-tracking-class.php' ); // Remove tracking
 require_once( get_template_directory() . '/inc/theme-options.php' );
 require_once( get_template_directory() . '/inc/theme-option.php' );
-require_once( get_template_directory() . '/inc/visual_composer.php' );
+if ( class_exists( 'WPBakeryShortCode' ) ) {
+    require_once( get_template_directory() . '/inc/visual_composer.php' );
+}
 require_once( get_template_directory() . '/inc/breadcrumbs-functions.php' );
 require_once( get_template_directory() . '/inc/filter.php' );
+if ( class_exists( 'woocommerce' ) ) {
+    require_once( get_template_directory() . '/inc/woocomerce.php' );
+}
 
+
+ add_action('init', 'tooltip_shortcode_button_init');
+ function tooltip_shortcode_button_init() {
+
+      if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') && get_user_option('rich_editing') == 'true')
+           return;
+  
+      add_filter("mce_external_plugins", "tooltip_register_tinymce_plugin"); 
+      add_filter('mce_buttons', 'tooltip_add_tinymce_button');
+}
+
+
+function tooltip_register_tinymce_plugin($plugin_array) {
+    $plugin_array['tooltip_button'] = get_template_directory_uri() . '/assets/js/tooltipshortcode.js';
+    return $plugin_array;
+}
+
+function tooltip_add_tinymce_button($buttons) {
+    $buttons[] = "tooltip_button";
+    return $buttons;
+}

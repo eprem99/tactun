@@ -13,7 +13,7 @@
 }
 .rwmb-label {
 	width: 200px;
-	padding: 20px 10px 20px 0;
+	padding: 20px 10px 0 0;
 	font-weight: bold;
 	font-size: 14px;
 }
@@ -36,6 +36,8 @@
 .edit-tags-php .rwmb-clone {
 	background: #f1f1f1;
 }
+
+
 @media (max-width: 782px) {
 	.rwmb-input, .rwmb-label {
 		display: block;
@@ -53,6 +55,7 @@
 		padding-top: 4px;
 		padding-left: 0;
 	}
+
 }
 
 /* Fix style when use group and clone */

@@ -4,6 +4,7 @@
         <!-- hamburger menu -->
         <div class="hamburger-button">
             <div class="hamburger-bar-top"></div>
+            <div class="hamburger-bar-middle"></div>
             <div class="hamburger-bar-bottom"></div>
         </div>
         <!-- when opened -->

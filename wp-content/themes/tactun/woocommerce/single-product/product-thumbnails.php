@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see         https://docs.woocommerce.com/document/template-structure/
- * @package     WooCommerce/Templates
+ * @package     WooCommerce\Templates
  * @version     3.5.1
  */
 
@@ -22,12 +22,28 @@ if ( ! function_exists( 'wc_get_gallery_image_html' ) ) {
 	return;
 }
 
+
 global $product;
-
 $attachment_ids = $product->get_gallery_image_ids();
+$product_image_id = $product->get_image_id();
 
-if ( $attachment_ids && $product->get_image_id() ) {
-	foreach ( $attachment_ids as $attachment_id ) {
-		echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wc_get_gallery_image_html( $attachment_id ), $attachment_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
-	}
+if (!in_array($product_image_id, $attachment_ids)) {
+	array_unshift($attachment_ids, $product_image_id);
 }
+
+?>
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+<?php
+foreach ($attachment_ids as $attachment_id) :
+	$attachment_full_url = wp_get_attachment_image_src($attachment_id, 'full')[0];
+?>
+	<div data-img="<?php echo $attachment_full_url; ?>" class="swiper-slide"><?php echo wp_get_attachment_image($attachment_id, 'woocommerce_single'); ?></div>
+<?php
+endforeach;
+?>
+</div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+

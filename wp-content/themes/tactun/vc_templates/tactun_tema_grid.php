@@ -1,33 +1,34 @@
-<?php 
-	extract(shortcode_atts(array(
-	    'team_title' => '',
-	    'team_display' => '',
-	    'team_per_row' => '',
-	), $atts));
+<?php extract(shortcode_atts(array(
+    'featured_img' => '',
+    'tactun_title' => '',
+	'tactun_subtitle' => '',
+    'steps' => '',
+), $atts));
 
-// Post type query
-$query = new WP_Query(array(
-    'post_type' => 'team',
-    'posts_per_page' => esc_attr( $team_display ),
-    'order' => 'ASC',
-));
-
+$image  = wp_get_attachment_image($featured_img, 'tactun-image-374x257-cropped');
+$class = chars_class();
+$steps = vc_param_group_parse_atts($steps);
 ?>
-
-<?php if(!empty($team_title)){ ?>
-<div class="team_title"><?php echo $team_title; ?></div>
-<?php } ?>
-<div class="row">
-    <?php if( $query->have_posts() ): while( $query->have_posts() ): $query->the_post(); 
-    ?>
-
-    <div class="mb-4 <?php echo $team_per_row; ?>">
-    	<div class="theme-grid">
-	    	<div class="theme-grid-img"><?php the_post_thumbnail(); ?></div>
-	        <div class="theme-grid-name"><?php the_title(); ?></div>
-	        <div class="theme-grid-text"><?php the_content( ); ?></div>
+    <div class="mb-4 <?php echo $class; ?>">
+        <div class="team-grid fetured">
+            <div class="team-grid-img"> <?php echo $image; ?></div>
+            <div class="team-block">
+            	<div class="team-name"><?php echo $tactun_title; ?></div>
+				<div class="team-subname"><?php echo $tactun_subtitle; ?></div>
+                <div class="team-grid-text">
+                    <?php
+                    foreach ($steps as $el) {
+                        echo '<p>';
+                        if(!empty($el['title'])){
+                            echo '<span>'.$el['title'].'</span>';
+                            echo ' - ';
+                        }
+                        if(!empty($el['desc'])){
+                            echo $el['desc'];
+                        }
+                        echo '</p>';
+                    }
+                 ?></div>
+            </div>
         </div>
-    </div>	
-
-<?php endwhile; wp_reset_postdata(); endif; ?>    
-</div>
+    </div>  

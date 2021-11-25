@@ -7,9 +7,38 @@
 if ( !defined( 'ABSPATH' ) )
     die( '-1' );
 
+ if (class_exists('WPBakeryShortCode')) {
 
-// if (class_exists('WPBakeryVisualComposer')) {
+    vc_add_param("vc_section", array(
+        "type" => "checkbox",
+        "class" => "",
+        "heading" => "Angle top",
+        "param_name" => "angle_top",
+        'group'       => esc_html__( 'Design Options', 'tactun' ),
+    ));
+    vc_add_param("vc_section", array(
+        "type" => "checkbox",
+        "class" => "",
+        "heading" => "Angle Bottom",
+        "param_name" => "angle_bottom",
+        'group'       => esc_html__( 'Design Options', 'tactun' ),
+    ));
 
+    vc_add_param("vc_section", array(
+        "type" => "checkbox",
+        "class" => "",
+        "heading" => "Only login users",
+        "param_name" => "login_users",
+        'group'       => esc_html__( 'Design Options', 'tactun' ),
+    ));
+
+    vc_add_param("vc_section", array(
+        "type" => "checkbox",
+        "class" => "",
+        "heading" => "Only logaut users",
+        "param_name" => "logout_users",
+        'group'       => esc_html__( 'Design Options', 'tactun' ),
+    ));
         // Remove Elements
     vc_remove_element('vc_wp_search');
     vc_remove_element('vc_wp_meta');
@@ -41,9 +70,65 @@ if ( !defined( 'ABSPATH' ) )
     if (function_exists('vc_set_default_editor_post_types')) {
         vc_set_default_editor_post_types(array(
             'page',
-            'post',
-            'solution',
+            'post'
         ));
+    }
+
+// Create multi dropdown param type
+vc_add_shortcode_param( 'dropdown_multi', 'dropdown_multi_settings_field' );
+
+function dropdown_multi_settings_field( $param, $value ) {
+   $param_line = '';
+   $param_line .= '<select multiple name="'. esc_attr( $param['param_name'] ).'" class="wpb_vc_param_value wpb-input wpb-select '. esc_attr( $param['param_name'] ).' '. esc_attr($param['type']).'">';
+   foreach ( $param['value'] as $text_val => $val ) {
+       if ( is_numeric($text_val) && (is_string($val) || is_numeric($val)) ) {
+                $text_val = $val;
+            }
+            $text_val = __($text_val, "js_composer");
+            $selected = '';
+
+            if(!is_array($value)) {
+                $param_value_arr = explode(',',$value);
+            } else {
+                $param_value_arr = $value;
+            }
+
+            if ($value!=='' && in_array($val, $param_value_arr)) {
+                $selected = ' selected="selected"';
+            }
+            $param_line .= '<option class="'.$val.'" value="'.$val.'"'.$selected.'>'.$text_val.'</option>';
+        }
+   $param_line .= '</select>';
+
+   return  $param_line;
+}
+
+    $args = array( 
+        'post_type' => 'product', 
+    ); 
+    $posts = get_posts($args);   
+    $products = array();
+    foreach ( $posts as $product ) {
+        $products[$product->post_title] = $product->ID;
+    }
+
+    $attr_tax = wc_get_attribute_taxonomies();
+    $attributes = array();
+    foreach( $attr_tax as $tax ) {
+        $attributes[$tax->attribute_label] = $tax->attribute_name;
+    }
+
+    $product_cat_array = get_categories( array( 'taxonomy' => 'product_cat' ), [
+        'hide_empty' => true,
+    ] );
+    $product_cat = array(
+        __( 'All', 'coaf' ) => 'all'
+    );
+    //  print_r($product_cat_array);
+    if( $product_cat_array && ! is_wp_error( $product_cat_array )  ){
+        foreach( $product_cat_array as $cat ){
+            $product_cat[$cat->name] = $cat->term_id;
+        }
     }
 
     /**
@@ -590,42 +675,54 @@ if ( !defined( 'ABSPATH' ) )
         'icon' => 'icon-wpb-toggle-small-expand',
         'category' => esc_html( 'Tactun' ),
         'params' => array(
-            // Title
+            // Image
             array(
-                'type' => 'textfield',
-                'heading' => esc_html__( 'Title for Block', 'tactun' ),
-                'description' => esc_html__( 'Add title for block', 'tactun' ),
-                'param_name' => 'team_title',
-                'std' => '',
-                'save_always' => true,
-            ),
-            // Title
-            array(
-                'type' => 'textfield',
-                'heading' => esc_html__( 'Number posts display', 'tactun' ),
-                'description' => esc_html__( 'Add number them display greid system', 'tactun' ),
-                'param_name' => 'team_display',
+                'type' => 'attach_image',
+                'heading' => esc_html__( 'This Block image', 'tactun' ),
+                'description' => esc_html__( 'Add image this block', 'tactun' ),
+                'param_name' => 'featured_img',
                 'std' => '',
                 'save_always' => true,
             ),
 
-            // Number to show in row
+            // Title 1 
             array(
-                'type' => 'dropdown',
-                'heading' => esc_html( 'Posts per row', 'tactun' ),
-                'description' => esc_html__( 'How many posts would you like to display per row?', 'tactun' ),
-                'param_name' => 'team_per_row',
-                'value' => array(
-                    esc_html__( 'One', 'tactun' ) => 'col-sm-12 col-xs-12',
-                    esc_html__( 'Two', 'tactun' ) => 'col-sm-6 col-xs-12',
-                    esc_html__( 'Three', 'tactun' ) => 'col-sm-4 col-xs-12',
-                    esc_html__( 'Four', 'tactun' ) => 'col-sm-3 col-xs-12',
-                    esc_html__( 'Five', 'tactun' ) => 'flex-md-2 col-xs-12',
-                    esc_html__( 'Six', 'tactun' ) => 'col-sm-2 col-xs-12',
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Title block', 'tactun' ),
+                'description' => esc_html__( 'Add title navigation', 'tactun' ),
+                'param_name' => 'tactun_title',
+                'std' => '',
+                'save_always' => true,
+            ),
+            // Title 1 
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Sub Title block', 'tactun' ),
+                'description' => esc_html__( 'Add sub title navigation', 'tactun' ),
+                'param_name' => 'tactun_subtitle',
+                'std' => '',
+                'save_always' => true,
+            ),
+            // Description
+            array(
+                'type' => 'param_group',
+                'value' => '',
+                'param_name' => 'steps',
+                'params' => array(
+                  array(
+                    'type' => 'textfield',
+                    'value' => '',
+                    'heading' => esc_html__( 'Title', 'tactun' ),
+                    'param_name' => 'title',
+                  ),
+                  array(
+                    'type' => 'textfield',
+                    'value' => '',
+                    'heading' => esc_html__( 'Description', 'tactun' ),
+                    'param_name' => 'desc',
+                  )
                 ),
-                'save_always' => true,
-
-            ),
+            )    
         )
 
     ) );
@@ -1090,6 +1187,20 @@ if ( !defined( 'ABSPATH' ) )
         'icon' => 'icon-wpb-toggle-small-expand',
         'category'        => esc_html( 'Tactun' ),
         'params'          => array(
+            // Align items
+            array(
+                'type' => 'dropdown',
+                'heading' => esc_html__( 'Align item', 'tactun' ),
+                'description' => esc_html__( 'Add Align item', 'tactun' ),
+                'param_name' => 'featured_align',
+                'value' => array(
+                    esc_html__( 'Left', 'tactun' ) => 'text-left',
+                    esc_html__( 'Right', 'tactun' ) => 'text-right',
+                    esc_html__( 'Center', 'tactun' ) => 'text-center',
+                ),
+                'std' => '',
+                'save_always' => false,
+            ),
             // Image
             array(
                 'type' => 'attach_image',
@@ -1132,23 +1243,196 @@ if ( !defined( 'ABSPATH' ) )
 
 
     /*---------------------------------------------------------------------------------
+        Products Blocks
+    -----------------------------------------------------------------------------------*/
+    class WPBakeryShortCode_Tactun_Calculate_Block extends WPBakeryShortCode {}
+
+    vc_map(array(
+        'name'            => esc_html__('Products block', 'tactun'),
+        'description'     => esc_html__('Add calculate block.', 'tactun'),
+        'base'            => 'tactun_calculate_block',
+        'icon' => 'icon-wpb-toggle-small-expand',
+        'category'        => esc_html( 'Tactun' ),
+        'params'          => array(
+            // Title 1 
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Title block', 'tactun' ),
+                'description' => esc_html__( 'Add title', 'tactun' ),
+                'param_name' => 'tactun_calculate_title',
+                'std' => '',
+                'save_always' => true,
+            ),
+            // Title 1 
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Select box title', 'tactun' ),
+                'description' => esc_html__( 'Add Select box title', 'tactun' ),
+                'param_name' => 'tactun_calculate_selecttitle',
+                'std' => '',
+                'save_always' => true,
+            ),
+            array(
+                'type' => 'dropdown_multi',
+                "holder" => "div",
+                "class" => "",
+                'heading' => esc_html__( 'Select products', 'tactun' ),
+                'description' => esc_html__( 'Select products this block', 'tactun' ),
+                'param_name' => 'tactun_calculate_product',
+                'value' => $product_cat,
+            ),
+            array(
+                "type"          => "checkbox",
+                "admin_label"   => true,
+                "weight"        => 10,
+                "heading"       => __( "Display subscribe", "js_composer" ),
+                "description"   => __("display subscribe switcher?", "js_composer"),
+                "param_name"    => "tactun_calculate_switcher"
+            ),
+            array(
+                "type"          => "checkbox",
+                "admin_label"   => true,
+                "weight"        => 10,
+                "heading"       => __( "Product name or numbers", "js_composer" ),
+                "description"   => __("Product name or numbers", "js_composer"),
+                "param_name"    => "tactun_calculate_numbers"
+            ),
+            // Number to show in row
+            array(
+                'type' => 'dropdown',
+                'heading' => esc_html( 'Products per row', 'tactun' ),
+                'description' => esc_html__( 'How many products would you like to display per row?', 'tactun' ),
+                'param_name' => 'tactun_per_row',
+                'value' => array(
+                    esc_html__( 'One', 'tactun' ) => 'col-md-12 col-xs-12',
+                    esc_html__( 'Two', 'tactun' ) => 'col-md-6 col-xs-12',
+                    esc_html__( 'Three', 'tactun' ) => 'col-md-4 col-xs-12',
+                    esc_html__( 'Four', 'tactun' ) => 'col-md-3 col-xs-12',
+                    esc_html__( 'Five', 'tactun' ) => 'flex-md-2 col-xs-12',
+                    esc_html__( 'Six', 'tactun' ) => 'col-md-2 col-xs-12',
+                ),
+                'save_always' => true,
+
+            ),
+        )
+    ));
+
+
+    /*---------------------------------------------------------------------------------
+        Products Category Blocks
+    -----------------------------------------------------------------------------------*/
+    class WPBakeryShortCode_Tactun_Category_Block extends WPBakeryShortCode {}
+
+    vc_map(array(
+        'name'            => esc_html__('Category options block', 'tactun'),
+        'description'     => esc_html__('Add Category options block.', 'tactun'),
+        'base'            => 'tactun_options_block',
+        'icon' => 'icon-wpb-toggle-small-expand',
+        'category'        => esc_html( 'Tactun' ),
+        'params'          => array(
+            // Title 1 
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Title block', 'tactun' ),
+                'description' => esc_html__( 'Add title', 'tactun' ),
+                'param_name' => 'tactun_calculate_title',
+                'std' => '',
+                'save_always' => true,
+            ),
+            array(
+                'type' => 'dropdown_multi',
+                "holder" => "div",
+                "class" => "",
+                'heading' => esc_html__( 'Select products', 'tactun' ),
+                'description' => esc_html__( 'Select products this block', 'tactun' ),
+                'param_name' => 'tactun_calculate_product',
+                'value' => $product_cat,
+            ),
+        )
+    ));
+
+    /*---------------------------------------------------------------------------------
+        Login Form
+    -----------------------------------------------------------------------------------*/
+    class WPBakeryShortCode_Tactun_Login_Block extends WPBakeryShortCode {}
+
+    vc_map(array(
+        'name'            => esc_html__('Login form', 'tactun'),
+        'description'     => esc_html__('Add Login block.', 'tactun'),
+        'base'            => 'tactun_login_block',
+        'icon'            => 'icon-wpb-toggle-small-expand',
+        'category'        => esc_html( 'Tactun' ),
+        'params'          => array(
+            // Title 1 
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Title block', 'tactun' ),
+                'description' => esc_html__( 'Add title', 'tactun' ),
+                'param_name' => 'tactun_login_title',
+                'holder' => 'div',
+                'class' => '',
+                'std' => '',
+                'save_always' => true,
+            ),
+            array(
+                'type' => 'textarea',
+                'heading' => esc_html__( 'Login block description', 'tactun' ),
+                'description' => esc_html__( 'Add login description', 'tactun' ),
+                'param_name' => 'tactun_login_description',
+            ),
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Button text', 'tactun' ),
+                'description' => esc_html__( 'Add login button text', 'tactun' ),
+                'param_name' => 'tactun_login_button_text',
+                'save_always' => true,
+            ),
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Login button link', 'tactun' ),
+                'description' => esc_html__( 'Add button link', 'tactun' ),
+                'param_name' => 'tactun_login_button_link',
+                'save_always' => true,
+            ),
+        )
+    ));
+ 
+    /*---------------------------------------------------------------------------------
         Acardeon
     -----------------------------------------------------------------------------------*/
-    class WPBakeryShortCode_Tactun_Accordion extends WPBakeryShortCodesContainer {}
+    class WPBakeryShortCode_Tactun_Table extends WPBakeryShortCodesContainer {}
 
     vc_map( array(
 
-        'name' => esc_html__( 'Accordion', 'tactun' ),
-        'description' => esc_html__( 'Add Accordion.', 'tactun' ),
-        'as_parent' => array( 'only' => 'tactun_accordion_blocks' ),
-        'base' => 'tactun_accordion',
+        'name' => esc_html__( 'Options table', 'tactun' ),
+        'description' => esc_html__( 'Add Category options table.', 'tactun' ),
+        'as_parent' => array( 'only' => 'tactun_table_row' ),
+        'base' => 'tactun_table',
         'icon' => 'icon-wpb-toggle-small-expand',
         'content_element' => true,
         'show_settings_on_create' => true,
         'js_view' => 'VcColumnView',
         'category' => esc_html( 'Tactun' ),
         'params' => array(
-
+            array(
+                "type"          => "checkbox",
+                "admin_label"   => true,
+                "weight"        => 10,
+                "heading"       => __( "Make featured", "js_composer" ),
+                "description"   => __("description", "js_composer"),
+                "value"         => array('key' => 'value', 'key1' => 'value1'),
+                "param_name"    => "abc_param"
+            ),
+            // Title 1 
+            array(
+                'type' => 'textfield',
+                'heading' => esc_html__( 'Title 1', 'tactun' ),
+                'description' => esc_html__( 'Add title', 'tactun' ),
+                'param_name' => 'tactun_calculate_title',
+                'std' => '',
+                'save_always' => true,
+                'dependency'  => array( 'element' => 'abc_param', 'value' => 'value' ),
+            ),
         )
 
     ) );
@@ -1157,13 +1441,13 @@ if ( !defined( 'ABSPATH' ) )
     /*---------------------------------------------------------------------------------
         Slider Blocks
     -----------------------------------------------------------------------------------*/
-    class WPBakeryShortCode_Tactun_Accordion_Blocks extends WPBakeryShortCode {}
+    class WPBakeryShortCode_Tactun_Table_Row extends WPBakeryShortCode {}
 
     vc_map(array(
-        'name'            => esc_html__('Accordion blocks', 'tactun'),
-        'description'     => esc_html__('Add Accordion block.', 'tactun'),
-        'as_child'        => array( 'only' => 'tactun_accordion' ),
-        'base'            => 'tactun_accordion_blocks',
+        'name'            => esc_html__('Table Row', 'tactun'),
+        'description'     => esc_html__('Add Table Row.', 'tactun'),
+        'as_child'        => array( 'only' => 'tactun_table' ),
+        'base'            => 'tactun_table_row',
         'icon' => 'icon-wpb-toggle-small-expand',
         'content_element' => true,
         'show_settings_on_create' => true,
@@ -1173,21 +1457,24 @@ if ( !defined( 'ABSPATH' ) )
             // Title 1 
             array(
                 'type' => 'textfield',
-                'heading' => esc_html__( 'Title accordion', 'tactun' ),
-                'description' => esc_html__( 'Add title accordion', 'tactun' ),
+                'heading' => esc_html__( 'Title', 'tactun' ),
+                'description' => esc_html__( 'Add title', 'tactun' ),
                 'param_name' => 'tactun_title',
+                "holder" => "div",
+                "class" => "",
                 'std' => '',
                 'save_always' => true,
+                'dependency'  => array( 'element' => 'abc_param', 'value' => 'value' ),
             ),
             // Link 
-            array(
-                'type' => 'textarea',
-                'heading' => esc_html__( 'Description accordion', 'tactun' ),
-                'description' => esc_html__( 'Add description accordion', 'tactun' ),
-                'param_name' => 'tactun_description',
-                'std' => '',
-                'save_always' => true,
-            ),
+            // array(
+            //     'type' => 'textfield',
+            //     'heading' => esc_html__( 'Description accordion', 'tactun' ),
+            //     'description' => esc_html__( 'Add description accordion', 'tactun' ),
+            //     'param_name' => 'tactun_description',
+            //     'std' => '',
+            //     'save_always' => true,
+            // ),
         )
     ));
 
@@ -1317,6 +1604,6 @@ if ( !defined( 'ABSPATH' ) )
             ),
         )
     ));
-// } // End Class_exists
+ } // End Class_exists
 
 ?>

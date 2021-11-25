@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 2.6.0
  */
 
@@ -20,22 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 do_action( 'woocommerce_before_account_navigation' );
-?>
-
-<?php
-if ( is_user_logged_in() ) {
-?>
-
-<div class="is_logged_in_container">
-	<div class="is_logged_in">
-		<p>חברי מעודון: המחירים מתעדכנים בצורה אוטומטית.</p>
-	</div>
-</div>
-
-<?php
-} else {
-
-}
 ?>
 
 <nav class="woocommerce-MyAccount-navigation">

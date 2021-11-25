@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 2.0.0
  */
 
@@ -19,8 +19,7 @@ defined( 'ABSPATH' ) || exit;
 
 global $post;
 
-// print_r($post);
-
+$heading = apply_filters( 'woocommerce_product_description_heading', __( 'Description', 'woocommerce' ) );
 ?>
 
-<?php echo $post->post_content; ?>
+<?php the_content(); ?>

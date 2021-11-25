@@ -175,7 +175,7 @@ if ( !class_exists( 'MB_Term_Meta_Box' ) ) {
  * Term Meta Conditional Logic
  */
 
-   // require_once( get_template_directory() . '/inc/meta-box/extensions/meta-box-conditional-logic/meta-box-conditional-logic.php' );
+    require_once( get_template_directory() . '/inc/meta-box/extensions/meta-box-conditional-logic/meta-box-conditional-logic.php' );
 
 
 /**

@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see         https://docs.woocommerce.com/document/template-structure/
- * @package     WooCommerce/Templates
+ * @package     WooCommerce\Templates
  * @version     3.9.0
  */
 
@@ -22,35 +22,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( $related_products ) : ?>
 
 	<section class="related products">
+
 		<?php
-		add_action('woocommerce_after_single_product_summary', 'show_cross_sell_in_single_product', 30);
-		function show_cross_sell_in_single_product(){
-		    $crosssells = get_post_meta( get_the_ID(), '_crosssell_ids',true);
+		$heading = apply_filters( 'woocommerce_product_related_products_heading', __( 'Related products', 'woocommerce' ) );
 
-		    if(empty($crosssells)){
-		        return;
-		    }
+		if ( $heading ) :
+			?>
+			<h2><?php echo esc_html( $heading ); ?></h2>
+		<?php endif; ?>
+		
+		<?php woocommerce_product_loop_start(); ?>
 
-		    $args = array( 
-		        'post_type' => 'product', 
-		        'posts_per_page' => -1, 
-		        'post__in' => $crosssells 
-		        );
-		    $products = new WP_Query( $args );
-		    if( $products->have_posts() ) : 
-		        echo '<div class="cross-sells"><h2>מוצרים קשורים</h2>';
-		        woocommerce_product_loop_start();
-		        while ( $products->have_posts() ) : $products->the_post();
-		            wc_get_template_part( 'content', 'product' );
-		        endwhile; // end of the loop.
-		        woocommerce_product_loop_end();
-		        echo '</div>';
-		    endif;
-		    wp_reset_postdata();
-		} 
-		?>
+			<?php foreach ( $related_products as $related_product ) : ?>
 
-	</section> 
+					<?php
+					$post_object = get_post( $related_product->get_id() );
+
+					setup_postdata( $GLOBALS['post'] =& $post_object ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited, Squiz.PHP.DisallowMultipleAssignments.Found
+
+					wc_get_template_part( 'content', 'product' );
+					?>
+
+			<?php endforeach; ?>
+
+		<?php woocommerce_product_loop_end(); ?>
+
+	</section>
 	<?php
 endif;
 

@@ -22,6 +22,7 @@ $args = array(
 'page_slug'             => 'theme-options',
 'page_title'            => 'Theme Options',
 'update_notice'         => TRUE,
+'redux_training'        => true,
 'admin_bar'             => TRUE,
 'menu_type'             => 'menu',
 'page_parent'           => '',
@@ -102,34 +103,6 @@ Redux::setSection( $opt_name, array(
         ),
 
         array(
-            'id'        => 'mobile_logo',
-            'url'       => true,
-            'type'      => 'media',
-            'title'     => esc_html__( 'Mobile Logo', 'tactun' ),
-            'read-only' => false,
-            'default'   => array( 'url' => get_template_directory_uri() .'/assets/img/logo/logo-mobile.png' ),
-            'subtitle'  => esc_html__( 'Upload your custom site logo for mobiles.', 'tactun' ),
-        ),
-
-        array(
-            'title'            => esc_html__('Mobile Logo Margin', 'tactun'),
-            'subtitle'         => esc_html__('Move your mobile logo around to fit it perfectly.', 'tactun'),
-            'id'               => 'logo_mobile_margin',
-            'type'             => 'spacing',
-            'output'           => array('.mobile-logo img'),
-            'mode'             => 'margin',
-            'units'            => array('px'),
-            'units_extended'   => 'false',
-            'default'          => array(
-                'margin-top'     => '0px',
-                'margin-right'   => '0px',
-                'margin-bottom'  => '0px',
-                'margin-left'    => '0px',
-                'units'          => 'px',
-            )
-        ),
-
-        array(
             'id'    => 'favicon',
             'url'           => true,
             'type'      => 'media',
@@ -171,6 +144,86 @@ Redux::setSection( $opt_name, array(
     )
 ));
 
+/*--------------------------------------------------------*/
+/* Header
+/*--------------------------------------------------------*/
+
+Redux::setSection( $opt_name, array(
+    'title'      => esc_html__( 'Header', 'tactun' ),
+    'id'         => 'header_options',
+    'subsection' => false,
+));
+
+/**
+ * header Section
+ */
+Redux::setSection( $opt_name, array(
+    'title'   => esc_html__( 'Header options', 'tactun' ),
+    'id'      => 'headers_options',
+    'subsection' => true,
+    'fields'  => array(
+        // Enable Search
+        array(
+            'title'            => esc_html__('Enable Search', 'tactun'),
+            'id'               => 'header_search',
+            'type'             => 'switch',
+            'default'          => true,
+        ),
+        // Enable Login button
+        array(
+            'title'            => esc_html__('Enable Login', 'tactun'),
+            'id'               => 'header_login',
+            'type'             => 'switch',
+            'default'          => true,
+        ),
+        // Enable Request
+        array(
+            'title'            => esc_html__('Enable Request button', 'tactun'),
+            'id'               => 'header_request',
+            'type'             => 'switch',
+            'default'          => true,
+        ),
+        // Request button link
+        array(
+            'title'            => esc_html__('Request button link', 'tactun'),
+            'id'               => 'header_request_link',
+            'type'             => 'text',
+            'default'          => esc_html( '#' ),
+            'required'         => array('header_request', '=', true),
+        ),
+    ),
+
+));
+/*--------------------------------------------------------*/
+/* Footer
+/*--------------------------------------------------------*/
+
+Redux::setSection( $opt_name, array(
+    'title'      => esc_html__( 'Footer  options', 'tactun' ),
+    'id'         => 'footer_options',
+    'subsection' => false,
+));
+
+/**
+ * Footer Section
+ */
+Redux::setSection( $opt_name, array(
+    'title'   => esc_html__( 'Footer options', 'tactun' ),
+    'id'      => 'footers_options',
+    'subsection' => true,
+    'fields'  => array(
+        // Enable Scroll top
+        array(
+            'title'            => esc_html__('Enable Scroll Top', 'tactun'),
+            'id'               => 'scroll_top',
+            'type'             => 'switch',
+            'default'          => true,
+        ),
+
+    ),
+
+));
+
 /**
  * Copyright Section
  */
@@ -186,7 +239,7 @@ Redux::setSection( $opt_name, array(
             'subtitle'         => esc_html__('Enter the text which you would like in the copyright section (HTML Allowed).', 'tactun'),
             'id'               => 'copyright_text',
             'type'             => 'textarea',
-            'default'          => esc_html( '© All rights reserved Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean malesuada molestie neque non lobortis. ' )
+            'default'          => esc_html( '© 2021 TACTUN LLC. All rights reserved.' )
         ),
         // Top footer area
         array(

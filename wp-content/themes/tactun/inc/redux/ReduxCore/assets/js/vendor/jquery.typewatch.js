@@ -1,85 +1,73 @@
-// jscs:disable
-// jshint ignore: start
-
 /*
-*	TypeWatch 3
+*	TypeWatch 2.2
 *
 *	Examples/Docs: github.com/dennyferra/TypeWatch
-*
+*	
+*  Copyright(c) 2013 
+*	Denny Ferrassoli - dennyferra.com
+*   Charles Christolini
+*  
 *  Dual licensed under the MIT and GPL licenses:
 *  http://www.opensource.org/licenses/mit-license.php
 *  http://www.gnu.org/licenses/gpl.html
 */
 
-!function(root, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define(['jquery'], factory);
-	} else if (typeof exports === 'object') {
-		factory(require('jquery'));
-	} else {
-		factory(root.jQuery);
-	}
-}(this, function($) {
-	'use strict';
-	$.fn.typeWatch = function(o) {
+(function(jQuery) {
+	jQuery.fn.typeWatch = function(o) {
 		// The default input types that are supported
 		var _supportedInputTypes =
-			    ['TEXT', 'TEXTAREA', 'PASSWORD', 'TEL', 'SEARCH', 'URL', 'EMAIL', 'DATETIME', 'DATE', 'MONTH', 'WEEK', 'TIME', 'DATETIME-LOCAL', 'NUMBER', 'RANGE', 'DIV'];
+			['TEXT', 'TEXTAREA', 'PASSWORD', 'TEL', 'SEARCH', 'URL', 'EMAIL', 'DATETIME', 'DATE', 'MONTH', 'WEEK', 'TIME', 'DATETIME-LOCAL', 'NUMBER', 'RANGE'];
 
 		// Options
-		var options = $.extend({
+		var options = jQuery.extend({
 			wait: 750,
 			callback: function() { },
 			highlight: true,
 			captureLength: 2,
-			allowSubmit: false,
 			inputTypes: _supportedInputTypes
 		}, o);
 
 		function checkElement(timer, override) {
-			var value = timer.type === 'DIV'
-				? jQuery(timer.el).html()
-				: jQuery(timer.el).val();
+			var value = jQuery(timer.el).val();
 
-			// If has capture length and has changed value
-			// Or override and has capture length or allowSubmit option is true
-			// Or capture length is zero and changed value
-			if ((value.length >= options.captureLength && value != timer.text)
-				|| (override && (value.length >= options.captureLength || options.allowSubmit))
-				|| (value.length == 0 && timer.text))
+			// Fire if text >= options.captureLength AND text != saved text OR if override AND text >= options.captureLength
+			if ((value.length >= options.captureLength && value.toUpperCase() != timer.text)
+				|| (override && value.length >= options.captureLength))
 			{
-				timer.text = value;
+				timer.text = value.toUpperCase();
 				timer.cb.call(timer.el, value);
 			}
 		};
 
 		function watchElement(elem) {
-			var elementType = (elem.type || elem.nodeName).toUpperCase();
+			var elementType = elem.type.toUpperCase();
 			if (jQuery.inArray(elementType, options.inputTypes) >= 0) {
 
 				// Allocate timer element
 				var timer = {
 					timer: null,
-					text: (elementType === 'DIV') ? jQuery(elem).html() : jQuery(elem).val(),
+					text: jQuery(elem).val().toUpperCase(),
 					cb: options.callback,
 					el: elem,
-					type: elementType,
 					wait: options.wait
 				};
 
 				// Set focus action (highlight)
-				if (options.highlight && elementType !== 'DIV')
-					jQuery(elem).focus(function() { this.select(); });
+				if (options.highlight) {
+					jQuery(elem).focus(
+						function() {
+							this.select();
+						});
+				}
 
 				// Key watcher / clear and reset the timer
 				var startWatch = function(evt) {
 					var timerWait = timer.wait;
 					var overrideBool = false;
-					var evtElementType = elementType;
+					var evtElementType = this.type.toUpperCase();
 
-					// If enter key is pressed and not a TEXTAREA or DIV
-					if (typeof evt.keyCode != 'undefined' && evt.keyCode == 13
-						&& evtElementType !== 'TEXTAREA' && elementType !== 'DIV') {
+					// If enter key is pressed and not a TEXTAREA and matched inputTypes
+					if (typeof evt.keyCode != 'undefined' && evt.keyCode == 13 && evtElementType != 'TEXTAREA' && jQuery.inArray(evtElementType, options.inputTypes) >= 0) {
 						timerWait = 1;
 						overrideBool = true;
 					}
@@ -88,7 +76,7 @@
 						checkElement(timer, overrideBool)
 					}
 
-					// Clear timer
+					// Clear timer					
 					clearTimeout(timer.timer);
 					timer.timer = setTimeout(timerCallbackFx, timerWait);
 				};
@@ -97,9 +85,10 @@
 			}
 		};
 
-		// Watch each element
+		// Watch Each Element
 		return this.each(function() {
 			watchElement(this);
 		});
+
 	};
-});
+})(jQuery);

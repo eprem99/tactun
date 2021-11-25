@@ -11,7 +11,7 @@
  * the readme will list any important changes.
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 3.6.0
  */
 
@@ -24,7 +24,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
 }
 ?>
-<div <?php wc_product_class( 'mb-2 col-md-'.esc_attr( wc_get_loop_prop( 'columns' ) ), $product ); ?>>
+<div <?php wc_product_class( 'col-md-4', $product ); ?>>
 	<?php
 	/**
 	 * Hook: woocommerce_before_shop_loop_item.
@@ -32,6 +32,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	 * @hooked woocommerce_template_loop_product_link_open - 10
 	 */
 	do_action( 'woocommerce_before_shop_loop_item' );
+
 	/**
 	 * Hook: woocommerce_before_shop_loop_item_title.
 	 *
@@ -61,8 +62,6 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	 * @hooked woocommerce_template_loop_product_link_close - 5
 	 * @hooked woocommerce_template_loop_add_to_cart - 10
 	 */
-echo '<div class="prod_buttons"><div class="loop_buttons">';	 
 	do_action( 'woocommerce_after_shop_loop_item' );
-echo '</div></div>';	
 	?>
 </div>
